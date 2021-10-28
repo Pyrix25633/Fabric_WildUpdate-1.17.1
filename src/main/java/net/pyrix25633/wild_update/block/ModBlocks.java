@@ -18,8 +18,21 @@ public class ModBlocks {
     public static final Block MUD_BLOCK = registerBlock("mud_block",
             new Block(FabricBlockSettings.of(Material.SOLID_ORGANIC)
                     .strength(0.85f, 1f)
+                    .jumpVelocityMultiplier(0.9f)
                     .breakByTool(FabricToolTags.SHOVELS)
                     .sounds(BlockSoundGroup.ROOTED_DIRT)));
+
+    public static final Block MUD_BRICKS = registerBlock("mud_bricks",
+            new Block(FabricBlockSettings.of(Material.SOLID_ORGANIC)
+                    .strength(1.5f, 2f)
+                    .breakByTool(FabricToolTags.PICKAXES).requiresTool()
+                    .sounds(BlockSoundGroup.STONE)));
+
+    public static final Block MANGROVE_LOG = registerBlock("mangrove_log",
+            new Block(FabricBlockSettings.of(Material.WOOD)
+                    .strength(1f, 1f)
+                    .breakByTool(FabricToolTags.AXES)
+                    .sounds(BlockSoundGroup.WOOD))); //Model and texture!
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
