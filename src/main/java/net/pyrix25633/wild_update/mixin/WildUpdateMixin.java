@@ -1,4 +1,4 @@
-package net.pyrix25633.mixin;
+package net.pyrix25633.wild_update.mixin;
 
 import net.pyrix25633.wild_update.WildUpdate;
 import net.minecraft.client.gui.screen.TitleScreen;
