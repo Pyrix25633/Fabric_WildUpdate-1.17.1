@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "wild_update",
+  "version": "${version}",
+
+  "name": "Wild Update",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Pyrix25633"
+  ],
+  "contact": {
+    "homepage": "https://pyrix25633.github.io/official_website/"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/wild_update/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.pyrix25633.wild_update.WildUpdate"
+    ]
+  },
+  "mixins": [
+    "wild_update.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.x",
+    "java": ">=16"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
