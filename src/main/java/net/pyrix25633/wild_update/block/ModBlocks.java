@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.SlabBlock;
+import net.minecraft.block.WallBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -37,6 +38,11 @@ public class ModBlocks {
                     .sounds(BlockSoundGroup.STONE)));
     public static final Block MUD_BRICK_SLAB = registerBlock("mud_brick_slab",
             new SlabBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC)
+                    .strength(1.5f, 2f)
+                    .breakByTool(FabricToolTags.PICKAXES).requiresTool()
+                    .sounds(BlockSoundGroup.STONE)));
+    public static final Block MUD_BRICK_WALL = registerBlock("mud_brick_wall",
+            new WallBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC)
                     .strength(1.5f, 2f)
                     .breakByTool(FabricToolTags.PICKAXES).requiresTool()
                     .sounds(BlockSoundGroup.STONE)));
