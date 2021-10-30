@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "wild_update:block/mangrove_slab"
+    },
+    "type=double": {
+      "model": "wild_update:block/mangrove_planks"
+    },
+    "type=top": {
+      "model": "wild_update:block/mangrove_slab_top"
+    }
+  }
+}

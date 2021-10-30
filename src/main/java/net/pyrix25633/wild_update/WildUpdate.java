@@ -1,6 +1,8 @@
 package net.pyrix25633.wild_update;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.minecraft.client.render.RenderLayer;
 import net.pyrix25633.wild_update.block.ModBlocks;
 import net.pyrix25633.wild_update.item.ModItems;
 import org.apache.logging.log4j.LogManager;
@@ -23,6 +25,8 @@ public class WildUpdate implements ModInitializer {
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
 
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MANGROVE_TRAPDOOR, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MANGROVE_DOOR, RenderLayer.getCutout());
 		LOGGER.info("Hello Fabric world!");
 	}
 }

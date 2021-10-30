@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "wild_update:block/mangrove_planks",
+    "top": "wild_update:block/mangrove_planks",
+    "side": "wild_update:block/mangrove_planks"
+  }
+}

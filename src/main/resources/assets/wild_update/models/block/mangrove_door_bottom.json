@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom",
+  "textures": {
+    "top": "wild_update:block/acacia_door_bottom",
+    "bottom": "wild_update:block/mangrove_door_bottom"
+  }
+}

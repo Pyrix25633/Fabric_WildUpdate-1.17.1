@@ -3,5 +3,14 @@
   "block.wild_update.mud_bricks": "Mud Bricks",
   "block.wild_update.mud_brick_stairs": "Mud Brick Stairs",
   "block.wild_update.mud_brick_slab": "Mud Brick Slab",
-  "block.wild_update.mud_brick_wall": "Mud Brick Wall"
+  "block.wild_update.mud_brick_wall": "Mud Brick Wall",
+  "block.wild_update.mangrove_planks": "Mangrove Planks",
+  "block.wild_update.mangrove_slab": "Mangrove Slab",
+  "block.wild_update.mangrove_stairs": "Mangrove Stairs",
+  "block.wild_update.mangrove_fence": "Mangrove Fence",
+  "block.wild_update.mangrove_fence_gate": "Mangrove Fence Gate",
+  "block.wild_update.mangrove_button": "Mangrove Button",
+  "block.wild_update.mangrove_pressure_plate": "Mangrove Pressure Plate",
+  "block.wild_update.mangrove_door": "Mangrove Door",
+  "block.wild_update.mangrove_trapdoor": "Mangrove Trapdoor"
 }

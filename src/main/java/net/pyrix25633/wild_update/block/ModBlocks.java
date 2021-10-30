@@ -3,10 +3,7 @@ package net.pyrix25633.wild_update.block;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.Material;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.WallBlock;
+import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -14,9 +11,11 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.pyrix25633.wild_update.WildUpdate;
-import net.pyrix25633.wild_update.block.custom.ModStairsBlock;
+import net.pyrix25633.wild_update.block.custom.*;
 
 public class ModBlocks {
+
+    static final float mudBrickHardness = 1.5f, mudBrickResistance = 2f, mangroveHardness = 2f, mangroveResistance = 2f;
 
     // Mud Blocks
     public static final Block MUD_BLOCK = registerBlock("mud_block",
@@ -27,31 +26,78 @@ public class ModBlocks {
                     .sounds(BlockSoundGroup.ROOTED_DIRT)));
     public static final Block MUD_BRICKS = registerBlock("mud_bricks",
             new Block(FabricBlockSettings.of(Material.SOLID_ORGANIC)
-                    .strength(1.5f, 2f)
+                    .strength(mudBrickHardness, mudBrickResistance)
                     .breakByTool(FabricToolTags.PICKAXES).requiresTool()
                     .sounds(BlockSoundGroup.STONE)));
     public static final Block MUD_BRICK_STAIRS = registerBlock("mud_brick_stairs",
             new ModStairsBlock(ModBlocks.MUD_BRICKS.getDefaultState(),
                     FabricBlockSettings.of(Material.SOLID_ORGANIC)
-                    .strength(1.5f, 2f)
+                    .strength(mudBrickHardness, mudBrickResistance)
                     .breakByTool(FabricToolTags.PICKAXES).requiresTool()
                     .sounds(BlockSoundGroup.STONE)));
     public static final Block MUD_BRICK_SLAB = registerBlock("mud_brick_slab",
             new SlabBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC)
-                    .strength(1.5f, 2f)
+                    .strength(mudBrickHardness, mudBrickResistance)
                     .breakByTool(FabricToolTags.PICKAXES).requiresTool()
                     .sounds(BlockSoundGroup.STONE)));
     public static final Block MUD_BRICK_WALL = registerBlock("mud_brick_wall",
             new WallBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC)
-                    .strength(1.5f, 2f)
+                    .strength(mudBrickHardness, mudBrickResistance)
                     .breakByTool(FabricToolTags.PICKAXES).requiresTool()
                     .sounds(BlockSoundGroup.STONE)));
-
+    //Mangrove Blocks
     //public static final Block MANGROVE_LOG = registerBlock("mangrove_log",
-    //        new Block(FabricBlockSettings.of(Material.WOOD)
+    //        new FacingBlock(FabricBlockSettings.of(Material.WOOD)
     //                .strength(1f, 1f)
     //                .breakByTool(FabricToolTags.AXES)
     //                .sounds(BlockSoundGroup.WOOD))); //Model and texture!
+    public static final Block MANGROVE_PLANKS = registerBlock("mangrove_planks",
+            new Block(FabricBlockSettings.of(Material.WOOD)
+                    .strength(mangroveHardness, mangroveResistance)
+                    .breakByTool(FabricToolTags.AXES)
+                    .sounds(BlockSoundGroup.WOOD)));
+    public static final Block MANGROVE_STAIRS = registerBlock("mangrove_stairs",
+            new ModStairsBlock(ModBlocks.MUD_BRICKS.getDefaultState(),
+                    FabricBlockSettings.of(Material.WOOD)
+                            .strength(mangroveHardness, mangroveResistance)
+                            .breakByTool(FabricToolTags.AXES)
+                            .sounds(BlockSoundGroup.WOOD)));
+    public static final Block MANGROVE_SLAB = registerBlock("mangrove_slab",
+            new SlabBlock(FabricBlockSettings.of(Material.WOOD)
+                    .strength(mangroveHardness, mangroveResistance)
+                    .breakByTool(FabricToolTags.AXES)
+                    .sounds(BlockSoundGroup.WOOD)));
+    public static final Block MANGROVE_FENCE = registerBlock("mangrove_fence",
+            new FenceBlock(FabricBlockSettings.of(Material.WOOD)
+                    .strength(mangroveHardness, mangroveResistance)
+                    .breakByTool(FabricToolTags.AXES)
+                    .sounds(BlockSoundGroup.WOOD)));
+    public static final Block MANGROVE_FENCE_GATE = registerBlock("mangrove_fence_gate",
+            new FenceGateBlock(FabricBlockSettings.of(Material.WOOD)
+                    .strength(mangroveHardness, mangroveResistance)
+                    .breakByTool(FabricToolTags.AXES)
+                    .sounds(BlockSoundGroup.WOOD)));
+    public static final Block MANGROVE_BUTTON = registerBlock("mangrove_button",
+            new ModWoodenButtonBlock(FabricBlockSettings.of(Material.WOOD)
+                    .strength(mangroveHardness, mangroveResistance)
+                    .breakByTool(FabricToolTags.AXES)
+                    .sounds(BlockSoundGroup.WOOD)));
+    public static final Block MANGROVE_PRESSURE_PLATE = registerBlock("mangrove_pressure_plate",
+            new ModPressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING,
+                    FabricBlockSettings.of(Material.WOOD)
+                    .strength(mangroveHardness, mangroveResistance)
+                    .breakByTool(FabricToolTags.AXES)
+                    .sounds(BlockSoundGroup.WOOD)));
+    public static final Block MANGROVE_DOOR = registerBlock("mangrove_door",
+            new ModDoorBlock(FabricBlockSettings.of(Material.WOOD)
+                            .strength(mangroveHardness, mangroveResistance)
+                            .breakByTool(FabricToolTags.AXES)
+                            .sounds(BlockSoundGroup.WOOD).nonOpaque()));
+    public static final Block MANGROVE_TRAPDOOR = registerBlock("mangrove_trapdoor",
+            new ModTrapdoorBlock(FabricBlockSettings.of(Material.WOOD)
+                            .strength(mangroveHardness, mangroveResistance)
+                            .breakByTool(FabricToolTags.AXES)
+                            .sounds(BlockSoundGroup.WOOD).nonOpaque()));
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
