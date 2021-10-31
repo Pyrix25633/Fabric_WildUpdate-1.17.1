@@ -46,11 +46,26 @@ public class ModBlocks {
                     .breakByTool(FabricToolTags.PICKAXES).requiresTool()
                     .sounds(BlockSoundGroup.STONE)));
     //Mangrove Blocks
-    //public static final Block MANGROVE_LOG = registerBlock("mangrove_log",
-    //        new FacingBlock(FabricBlockSettings.of(Material.WOOD)
-    //                .strength(1f, 1f)
-    //                .breakByTool(FabricToolTags.AXES)
-    //                .sounds(BlockSoundGroup.WOOD))); //Model and texture!
+    public static final Block MANGROVE_LOG = registerBlock("mangrove_log",
+            new ModLogBlock(FabricBlockSettings.of(Material.WOOD)
+                    .strength(1f, 1f)
+                    .breakByTool(FabricToolTags.AXES)
+                    .sounds(BlockSoundGroup.WOOD)));
+    public static final Block STRIPPED_MANGROVE_LOG = registerBlock("stripped_mangrove_log",
+            new ModLogBlock(FabricBlockSettings.of(Material.WOOD)
+                    .strength(1f, 1f)
+                    .breakByTool(FabricToolTags.AXES)
+                    .sounds(BlockSoundGroup.WOOD)));
+    public static final Block MANGROVE_WOOD = registerBlock("mangrove_wood",
+            new ModLogBlock(FabricBlockSettings.of(Material.WOOD)
+                    .strength(1f, 1f)
+                    .breakByTool(FabricToolTags.AXES)
+                    .sounds(BlockSoundGroup.WOOD)));
+    public static final Block STRIPPED_MANGROVE_WOOD = registerBlock("stripped_mangrove_wood",
+            new ModLogBlock(FabricBlockSettings.of(Material.WOOD)
+                    .strength(1f, 1f)
+                    .breakByTool(FabricToolTags.AXES)
+                    .sounds(BlockSoundGroup.WOOD)));
     public static final Block MANGROVE_PLANKS = registerBlock("mangrove_planks",
             new Block(FabricBlockSettings.of(Material.WOOD)
                     .strength(mangroveHardness, mangroveResistance)

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "wild_update:block/mangrove_log",
+    "side": "wild_update:block/mangrove_log"
+  }
+}
