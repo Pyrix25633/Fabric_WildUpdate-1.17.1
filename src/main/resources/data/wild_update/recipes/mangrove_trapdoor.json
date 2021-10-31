@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_trapdoor",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "wild_update:mangrove_planks"
+    }
+  },
+  "result": {
+    "item": "wild_update:mangrove_trapdoor",
+    "count": 2
+  }
+}
