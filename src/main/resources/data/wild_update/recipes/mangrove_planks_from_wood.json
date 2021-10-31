@@ -3,7 +3,7 @@
   "group": "planks",
   "ingredients": [
     {
-      "tag": "wild_update:mangrove_logs"
+      "item": "wild_update:mangrove_wood"
     }
   ],
   "result": {
