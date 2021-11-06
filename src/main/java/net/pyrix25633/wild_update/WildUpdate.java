@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.render.RenderLayer;
 import net.pyrix25633.wild_update.block.ModBlocks;
 import net.pyrix25633.wild_update.item.ModItems;
+import net.pyrix25633.wild_update.registries.ModFlammableBlocks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +13,7 @@ public class WildUpdate implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
-	public static final Logger LOGGER = LogManager.getLogger("modid");
+	public static final Logger LOGGER = LogManager.getLogger("wild_update");
 
 	public static final String MOD_ID = "wild_update";
 
@@ -25,8 +26,13 @@ public class WildUpdate implements ModInitializer {
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
 
+		ModFlammableBlocks.registerFlammables();
+
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MANGROVE_TRAPDOOR, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MANGROVE_DOOR, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SCULK_SHRIEKER, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SCULK_VEIN, RenderLayer.getCutout());
+
 		LOGGER.info("Hello Fabric world!");
 	}
 }

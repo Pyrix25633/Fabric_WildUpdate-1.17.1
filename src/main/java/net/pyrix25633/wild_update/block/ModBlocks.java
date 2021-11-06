@@ -15,7 +15,7 @@ import net.pyrix25633.wild_update.block.custom.*;
 
 public class ModBlocks {
 
-    static final float mudBrickHardness = 1.5f, mudBrickResistance = 2f, mangroveHardness = 2f, mangroveResistance = 2f;
+    static final float mudBrickHardness = 1.5f, mudBrickResistance = 2.2f, mangroveHardness = 2f, mangroveResistance = 1.8f;
 
     // Mud Blocks
     public static final Block MUD_BLOCK = registerBlock("mud_block",
@@ -113,6 +113,27 @@ public class ModBlocks {
                             .strength(mangroveHardness, mangroveResistance)
                             .breakByTool(FabricToolTags.AXES)
                             .sounds(BlockSoundGroup.WOOD).nonOpaque()));
+    //Sculk blocks
+    public static final Block SCULK_BLOCK = registerBlock("sculk_block",
+            new ModSculkBlock(FabricBlockSettings.of(Material.SCULK)
+                    .strength(0.5f, 1.2f)
+                    .breakByTool(FabricToolTags.HOES)
+                    .sounds(BlockSoundGroup.SCULK_SENSOR)));
+    public static final Block SCULK_CATALIST = registerBlock("sculk_catalist",
+            new ModSculkBlock(FabricBlockSettings.of(Material.SCULK)
+                    .strength(1f, 1.2f)
+                    .breakByTool(FabricToolTags.HOES)
+                    .sounds(BlockSoundGroup.SCULK_SENSOR)));
+    public static final Block SCULK_SHRIEKER = registerBlock("sculk_shrieker",
+            new ShriekerBlock(FabricBlockSettings.of(Material.SCULK)
+                    .strength(1f, 1.2f)
+                    .breakByTool(FabricToolTags.HOES)
+                    .sounds(BlockSoundGroup.SCULK_SENSOR).nonOpaque()));
+    public static final Block SCULK_VEIN = registerBlock("sculk_vein",
+            new VeinBlock(FabricBlockSettings.of(Material.SCULK)
+                    .strength(0.5f, 1.2f)
+                    .breakByTool(FabricToolTags.HOES)
+                    .sounds(BlockSoundGroup.SCULK_SENSOR).nonOpaque()));
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
