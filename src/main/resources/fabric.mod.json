@@ -19,6 +19,9 @@
   "entrypoints": {
     "main": [
       "net.pyrix25633.wild_update.WildUpdate"
+    ],
+    "client": [
+      "net.pyrix25633.wild_update.WildUpdateClient"
     ]
   },
   "mixins": [

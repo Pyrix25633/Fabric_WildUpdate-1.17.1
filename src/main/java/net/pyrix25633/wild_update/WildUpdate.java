@@ -28,11 +28,6 @@ public class WildUpdate implements ModInitializer {
 
 		ModFlammableBlocks.registerFlammables();
 
-		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MANGROVE_TRAPDOOR, RenderLayer.getCutout());
-		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MANGROVE_DOOR, RenderLayer.getCutout());
-		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SCULK_SHRIEKER, RenderLayer.getCutout());
-		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SCULK_VEIN, RenderLayer.getCutout());
-
 		LOGGER.info("Hello Fabric world!");
 	}
 }
