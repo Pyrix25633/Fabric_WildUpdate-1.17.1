@@ -19,7 +19,7 @@ public class ModBlocks {
 
     // Mud Blocks
     public static final Block MUD_BLOCK = registerBlock("mud_block",
-            new Block(FabricBlockSettings.of(Material.SOLID_ORGANIC)
+            new MudBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC)
                     .strength(0.85f, 1f)
                     .jumpVelocityMultiplier(0.9f)
                     .breakByTool(FabricToolTags.SHOVELS)
@@ -115,12 +115,12 @@ public class ModBlocks {
                             .sounds(BlockSoundGroup.WOOD).nonOpaque()));
     //Sculk blocks
     public static final Block SCULK_BLOCK = registerBlock("sculk_block",
-            new ModSculkBlock(FabricBlockSettings.of(Material.SCULK)
+            new Block(FabricBlockSettings.of(Material.SCULK)
                     .strength(0.5f, 1.2f)
                     .breakByTool(FabricToolTags.HOES)
                     .sounds(BlockSoundGroup.SCULK_SENSOR)));
     public static final Block SCULK_CATALIST = registerBlock("sculk_catalist",
-            new ModSculkBlock(FabricBlockSettings.of(Material.SCULK)
+            new CatalistBlock(FabricBlockSettings.of(Material.SCULK)
                     .strength(1f, 1.2f)
                     .breakByTool(FabricToolTags.HOES)
                     .sounds(BlockSoundGroup.SCULK_SENSOR)));
