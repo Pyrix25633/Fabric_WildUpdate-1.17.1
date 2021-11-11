@@ -14,8 +14,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class CatalistBlock extends Block {
-    public CatalistBlock(Settings settings) {
+public class SculkBlock extends Block {
+    public SculkBlock(Settings settings) {
         super(settings);
     }
 
@@ -23,7 +23,7 @@ public class CatalistBlock extends Block {
     public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack stack) {
         super.afterBreak(world, player, pos, state, blockEntity, stack);
         if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) == 0) {
-            int exp = ThreadLocalRandom.current().nextInt(5, 10);
+            int exp = ThreadLocalRandom.current().nextInt(1, 5);
             this.dropExperience((ServerWorld) world, pos, exp);
         }
     }

@@ -115,7 +115,7 @@ public class ModBlocks {
                             .sounds(BlockSoundGroup.WOOD).nonOpaque()));
     //Sculk blocks
     public static final Block SCULK_BLOCK = registerBlock("sculk_block",
-            new Block(FabricBlockSettings.of(Material.SCULK)
+            new SculkBlock(FabricBlockSettings.of(Material.SCULK)
                     .strength(0.5f, 1.2f)
                     .breakByTool(FabricToolTags.HOES)
                     .sounds(BlockSoundGroup.SCULK_SENSOR)));
