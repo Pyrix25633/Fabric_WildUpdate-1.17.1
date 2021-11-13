@@ -25,16 +25,19 @@ public class ShriekerBlock extends Block {
     private static final VoxelShape SHRIEKER = Block.createCuboidShape(0,0,0,16,8,16);
 
     @Override
+    @SuppressWarnings("deprecation")
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHRIEKER;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHRIEKER;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHRIEKER;
     }

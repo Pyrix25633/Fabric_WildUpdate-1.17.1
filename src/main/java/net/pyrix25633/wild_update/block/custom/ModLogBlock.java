@@ -35,6 +35,7 @@ public class ModLogBlock extends Block {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack playerItem = player.getStackInHand(hand);
         Boolean finished = false;
