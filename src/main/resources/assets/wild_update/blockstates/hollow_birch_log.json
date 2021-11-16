@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "wild_update:block/hollow_birch_log_horizontal",
+      "y": 90
+    },
+    "axis=y": {
+      "model": "wild_update:block/hollow_birch_log"
+    },
+    "axis=z": {
+      "model": "wild_update:block/hollow_birch_log_horizontal"
+    }
+  }
+}

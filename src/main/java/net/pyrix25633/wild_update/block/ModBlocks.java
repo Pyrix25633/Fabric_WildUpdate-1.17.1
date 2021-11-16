@@ -15,7 +15,9 @@ import net.pyrix25633.wild_update.block.custom.*;
 
 public class ModBlocks {
 
-    static final float mudBrickHardness = 1.5f, mudBrickResistance = 2.2f, mangroveHardness = 2f, mangroveResistance = 1.8f;
+    static final float mudBrickHardness = 1.5f, mudBrickResistance = 2.2f,
+            mangroveHardness = 2f, mangroveResistance = 1.8f,
+            hollowHardness = 2f, hollowResistance = 1.8f;
 
     // Mud Blocks
     public static final Block MUD_BLOCK = registerBlock("mud_block",
@@ -134,6 +136,12 @@ public class ModBlocks {
                     .strength(0.5f, 1.2f)
                     .breakByTool(FabricToolTags.HOES)
                     .sounds(BlockSoundGroup.SCULK_SENSOR).nonOpaque()));
+    //Hollow Birch Log
+    public static final Block HOLLOW_BIRCH_LOG = registerBlock("hollow_birch_log",
+            new HollowLog(FabricBlockSettings.of(Material.WOOD)
+                    .strength(hollowHardness, hollowResistance)
+                    .breakByTool(FabricToolTags.AXES)
+                    .sounds(BlockSoundGroup.WOOD).nonOpaque()));
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);

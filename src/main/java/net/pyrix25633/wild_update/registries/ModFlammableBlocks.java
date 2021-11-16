@@ -15,5 +15,6 @@ public class ModFlammableBlocks {
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.MANGROVE_SLAB, Encouragement, Flammability);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.MANGROVE_FENCE, Encouragement, Flammability);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.MANGROVE_FENCE_GATE, Encouragement, Flammability);
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.HOLLOW_BIRCH_LOG, Encouragement, Flammability);
     }
 }
