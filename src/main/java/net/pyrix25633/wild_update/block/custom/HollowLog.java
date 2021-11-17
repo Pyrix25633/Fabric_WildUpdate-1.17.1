@@ -1,13 +1,11 @@
 package net.pyrix25633.wild_update.block.custom;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
+import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
@@ -157,15 +155,25 @@ public class HollowLog extends Block {
     @SuppressWarnings("deprecation")
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack playerItem = player.getStackInHand(hand);
-        Boolean finished = false;
+        boolean finished = false;
         if(state.isOf(this)) {
             if(playerItem.getItem() == Items.MOSS_CARPET) {
                 if(!state.get(MOSSY)) {
                     world.setBlockState(pos, ModBlocks.HOLLOW_BIRCH_LOG.getDefaultState().with(AXIS, state.get(AXIS)).with(MOSSY, true));
                     world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_MOSS_CARPET_PLACE, SoundCategory.NEUTRAL, 1.0f, 1.0f);
-                    playerItem.decrement(1);
+                    if(!player.isCreative()) {
+                        playerItem.decrement(1);
+                    }
                     finished = true;
                 }
+            }
+            else if(playerItem.getItem() == Items.SHEARS) {
+                world.setBlockState(pos, ModBlocks.HOLLOW_BIRCH_LOG.getDefaultState().with(AXIS, state.get(AXIS)).with(MOSSY, false));
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_MOSS_CARPET_BREAK, SoundCategory.NEUTRAL, 1.0f, 1.0f);
+                world.addBlockBreakParticles(pos, Blocks.MOSS_CARPET.getDefaultState());
+                dropStack(world, pos, new ItemStack(Items.MOSS_CARPET));
+                playerItem.<PlayerEntity>damage(1, player, (p) -> p.sendToolBreakStatus(hand));
+                finished = true;
             }
         }
 
