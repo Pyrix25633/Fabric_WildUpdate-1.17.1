@@ -25,6 +25,7 @@ public class ModLogBlock extends Block {
 
     public ModLogBlock (AbstractBlock.Settings settings) {
         super(settings);
+        this.setDefaultState((BlockState) this.getDefaultState().with(AXIS, Direction.Axis.Y));
     }
 
     @Override

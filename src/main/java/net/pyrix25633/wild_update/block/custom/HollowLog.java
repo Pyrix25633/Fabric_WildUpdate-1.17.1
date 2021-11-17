@@ -29,6 +29,7 @@ public class HollowLog extends Block {
 
     public HollowLog(AbstractBlock.Settings settings) {
         super(settings);
+        this.setDefaultState((BlockState) this.getDefaultState().with(AXIS, Direction.Axis.Y).with(MOSSY, false));
     }
 
     @Override
