@@ -1,14 +1,56 @@
 {
-  "variants": {
-    "axis=x": {
-      "model": "wild_update:block/hollow_birch_log_horizontal",
-      "y": 90
+  "multipart": [
+    {
+      "when": {
+        "axis": "x"
+      },
+      "apply": {
+        "model": "wild_update:block/hollow_birch_log_horizontal",
+        "y": 90
+      }
     },
-    "axis=y": {
-      "model": "wild_update:block/hollow_birch_log"
+    {
+      "when": {
+        "mossy": "true",
+        "axis": "x"
+      },
+      "apply": {
+        "model": "wild_update:block/hollow_log_mossy_x"
+      }
     },
-    "axis=z": {
-      "model": "wild_update:block/hollow_birch_log_horizontal"
+    {
+      "when": {
+        "axis": "y"
+      },
+      "apply": {
+        "model": "wild_update:block/hollow_birch_log"
+      }
+    },
+    {
+      "when": {
+        "mossy": "true",
+        "axis": "y"
+      },
+      "apply": {
+        "model": "wild_update:block/hollow_log_mossy_y"
+      }
+    },
+    {
+      "when": {
+        "axis": "z"
+      },
+      "apply": {
+        "model": "wild_update:block/hollow_birch_log_horizontal"
+      }
+    },
+    {
+      "when": {
+        "mossy": "true",
+        "axis": "z"
+      },
+      "apply": {
+        "model": "wild_update:block/hollow_log_mossy_z"
+      }
     }
-  }
+  ]
 }

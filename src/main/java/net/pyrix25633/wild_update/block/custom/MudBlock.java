@@ -17,9 +17,10 @@ public class MudBlock extends Block {
     @SuppressWarnings("deprecation")
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if(world.getBlockState(pos.down()).getBlock() == Blocks.DRIPSTONE_BLOCK &&
-                world.getBlockState(pos.down().down()).getBlock() == Blocks.POINTED_DRIPSTONE) {
-            super.randomDisplayTick(state, world, pos, random);
+                world.getBlockState(pos.down(2)).getBlock() == Blocks.POINTED_DRIPSTONE) {
+            super.randomTick(state, world, pos, random);
             world.setBlockState(pos, Blocks.CLAY.getDefaultState());
+            world.addBlockBreakParticles(pos.up(), Blocks.CLAY.getDefaultState());
         }
     }
 }
