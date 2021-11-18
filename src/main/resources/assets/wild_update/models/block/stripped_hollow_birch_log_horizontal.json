@@ -1,8 +1,8 @@
 {
 	"parent": "wild_update:block/hollow_log_horizontal",
 	"textures": {
-		"out": "block/birch_log",
-		"front": "block/birch_log_top",
+		"out": "block/stripped_birch_log",
+		"front": "block/stripped_birch_log_top",
 		"in": "block/stripped_birch_log"
 	}
 }

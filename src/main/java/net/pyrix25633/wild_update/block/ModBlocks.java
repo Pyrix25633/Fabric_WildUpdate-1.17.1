@@ -142,6 +142,11 @@ public class ModBlocks {
                     .strength(hollowHardness, hollowResistance)
                     .breakByTool(FabricToolTags.AXES)
                     .sounds(BlockSoundGroup.WOOD).nonOpaque()));
+    public static final Block STRIPPED_HOLLOW_BIRCH_LOG = registerBlock("stripped_hollow_birch_log",
+            new HollowLog(FabricBlockSettings.of(Material.WOOD)
+                    .strength(hollowHardness, hollowResistance)
+                    .breakByTool(FabricToolTags.AXES)
+                    .sounds(BlockSoundGroup.WOOD).nonOpaque()));
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);

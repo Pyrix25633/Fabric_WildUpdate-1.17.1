@@ -1,5 +1,6 @@
 package net.pyrix25633.wild_update.block.custom;
 
+import net.fabricmc.fabric.api.tag.FabricItemTags;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -160,21 +161,63 @@ public class HollowLog extends Block {
         if(state.isOf(this)) {
             if(playerItem.getItem() == Items.MOSS_CARPET) {
                 if(!state.get(MOSSY)) {
-                    world.setBlockState(pos, ModBlocks.HOLLOW_BIRCH_LOG.getDefaultState().with(AXIS, state.get(AXIS)).with(MOSSY, true));
-                    world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_MOSS_CARPET_PLACE, SoundCategory.NEUTRAL, 1.0f, 1.0f);
-                    if(!player.isCreative()) {
-                        playerItem.decrement(1);
+                    if(state.isOf(ModBlocks.HOLLOW_BIRCH_LOG)) {
+                        world.setBlockState(pos, ModBlocks.HOLLOW_BIRCH_LOG.getDefaultState()
+                                .with(AXIS, state.get(AXIS)).with(MOSSY, true));
+                        world.playSound(player, player.getX(), player.getY(), player.getZ(),
+                                SoundEvents.BLOCK_MOSS_CARPET_PLACE, SoundCategory.NEUTRAL, 1.0f, 1.0f);
+                        if(!player.isCreative()) {
+                            playerItem.decrement(1);
+                        }
+                        finished = true;
                     }
-                    finished = true;
+                    else if(state.isOf(ModBlocks.STRIPPED_HOLLOW_BIRCH_LOG)) {
+                        world.setBlockState(pos, ModBlocks.STRIPPED_HOLLOW_BIRCH_LOG.getDefaultState()
+                                .with(AXIS, state.get(AXIS)).with(MOSSY, true));
+                        world.playSound(player, player.getX(), player.getY(), player.getZ(),
+                                SoundEvents.BLOCK_MOSS_CARPET_PLACE, SoundCategory.NEUTRAL, 1.0f, 1.0f);
+                        if(!player.isCreative()) {
+                            playerItem.decrement(1);
+                        }
+                        finished = true;
+                    }
                 }
             }
             else if(playerItem.getItem() == Items.SHEARS) {
-                world.setBlockState(pos, ModBlocks.HOLLOW_BIRCH_LOG.getDefaultState().with(AXIS, state.get(AXIS)).with(MOSSY, false));
-                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_MOSS_CARPET_BREAK, SoundCategory.NEUTRAL, 1.0f, 1.0f);
-                world.addBlockBreakParticles(pos, Blocks.MOSS_CARPET.getDefaultState());
-                dropStack(world, pos, new ItemStack(Items.MOSS_CARPET));
-                playerItem.<PlayerEntity>damage(1, player, (p) -> p.sendToolBreakStatus(hand));
-                finished = true;
+                if(state.get(MOSSY)) {
+                    if(state.isOf(ModBlocks.HOLLOW_BIRCH_LOG)) {
+                        world.setBlockState(pos, ModBlocks.HOLLOW_BIRCH_LOG.getDefaultState()
+                                .with(AXIS, state.get(AXIS)).with(MOSSY, false));
+                        world.playSound(player, player.getX(), player.getY(), player.getZ(),
+                                SoundEvents.BLOCK_MOSS_CARPET_BREAK, SoundCategory.NEUTRAL, 1.0f, 1.0f);
+                        world.addBlockBreakParticles(pos, Blocks.MOSS_CARPET.getDefaultState());
+                        dropStack(world, pos, new ItemStack(Items.MOSS_CARPET));
+                        playerItem.<PlayerEntity>damage(1, player, (p) -> p.sendToolBreakStatus(hand));
+                        finished = true;
+                    }
+                    else if(state.isOf(ModBlocks.STRIPPED_HOLLOW_BIRCH_LOG)) {
+                        world.setBlockState(pos, ModBlocks.STRIPPED_HOLLOW_BIRCH_LOG.getDefaultState()
+                                .with(AXIS, state.get(AXIS)).with(MOSSY, false));
+                        world.playSound(player, player.getX(), player.getY(), player.getZ(),
+                                SoundEvents.BLOCK_MOSS_CARPET_BREAK, SoundCategory.NEUTRAL, 1.0f, 1.0f);
+                        world.addBlockBreakParticles(pos, Blocks.MOSS_CARPET.getDefaultState());
+                        dropStack(world, pos, new ItemStack(Items.MOSS_CARPET));
+                        playerItem.<PlayerEntity>damage(1, player, (p) -> p.sendToolBreakStatus(hand));
+                        finished = true;
+                    }
+                }
+            }
+            else if(playerItem.getItem() == Items.WOODEN_AXE || playerItem.getItem() == Items.STONE_AXE ||
+                    playerItem.getItem() == Items.IRON_AXE || playerItem.getItem() == Items.GOLDEN_AXE ||
+                    playerItem.getItem() == Items.DIAMOND_AXE || playerItem.getItem() == Items.NETHERITE_AXE){
+                if(state.isOf(ModBlocks.HOLLOW_BIRCH_LOG)) {
+                    world.setBlockState(pos, ModBlocks.STRIPPED_HOLLOW_BIRCH_LOG.getDefaultState()
+                            .with(AXIS, state.get(AXIS)).with(MOSSY, state.get(MOSSY)));
+                    playerItem.<PlayerEntity>damage(1, player, (p) -> p.sendToolBreakStatus(hand));
+                    world.playSound(player, player.getX(), player.getY(), player.getZ(),
+                            SoundEvents.ITEM_AXE_STRIP, SoundCategory.NEUTRAL, 1.0f, 1.0f);
+                    finished = true;
+                }
             }
         }
 
