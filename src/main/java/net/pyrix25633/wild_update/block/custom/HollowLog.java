@@ -2,6 +2,9 @@ package net.pyrix25633.wild_update.block.custom;
 
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -20,20 +23,58 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.pyrix25633.wild_update.block.ModBlocks;
 
-public class HollowLog extends Block {
+public class HollowLog extends Block implements Waterloggable {
     public static final EnumProperty<Direction.Axis> AXIS;
     public static final BooleanProperty MOSSY;
+    public static final BooleanProperty WATERLOGGED;
 
     public HollowLog(AbstractBlock.Settings settings) {
         super(settings);
-        this.setDefaultState((BlockState) this.getDefaultState().with(AXIS, Direction.Axis.Y).with(MOSSY, false));
+        this.setDefaultState(this.getDefaultState().with(AXIS, Direction.Axis.Y).with(MOSSY, false)
+                .with(WATERLOGGED, false));
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public boolean hasSidedTransparency(BlockState state) {
+        return true;
     }
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(AXIS, ctx.getSide().getAxis()).with(MOSSY, false);
+        FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
+        boolean bl = fluidState.getFluid() == Fluids.WATER;
+        return this.getDefaultState().with(AXIS, ctx.getSide().getAxis()).with(MOSSY, false).with(WATERLOGGED, bl);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public FluidState getFluidState(BlockState state) {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+    }
+
+    public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
+        return state.getFluidState().isEmpty();
+    }
+
+    public boolean tryFillWithFluid(WorldAccess world, BlockPos pos, BlockState state, FluidState fluidState) {
+        return Waterloggable.super.tryFillWithFluid(world, pos, state, fluidState);
+    }
+
+    public boolean canFillWithFluid(BlockView world, BlockPos pos, BlockState state, Fluid fluid) {
+        return Waterloggable.super.canFillWithFluid(world, pos, state, fluid);
+    }
+
+    @SuppressWarnings("deprecation")
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
+        if (state.get(WATERLOGGED)) {
+            world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+
+        return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
     }
 
     private static final VoxelShape X_1 = Block.createCuboidShape(0,0,0,16,2,16);
@@ -161,7 +202,8 @@ public class HollowLog extends Block {
                 if(!state.get(MOSSY)) {
                     if(state.isOf(ModBlocks.HOLLOW_BIRCH_LOG)) {
                         world.setBlockState(pos, ModBlocks.HOLLOW_BIRCH_LOG.getDefaultState()
-                                .with(AXIS, state.get(AXIS)).with(MOSSY, true));
+                                .with(AXIS, state.get(AXIS)).with(MOSSY, true)
+                                .with(WATERLOGGED, state.get(WATERLOGGED)));
                         world.playSound(player, player.getX(), player.getY(), player.getZ(),
                                 SoundEvents.BLOCK_MOSS_CARPET_PLACE, SoundCategory.NEUTRAL, 1.0f, 1.0f);
                         if(!player.isCreative()) {
@@ -171,7 +213,8 @@ public class HollowLog extends Block {
                     }
                     else if(state.isOf(ModBlocks.STRIPPED_HOLLOW_BIRCH_LOG)) {
                         world.setBlockState(pos, ModBlocks.STRIPPED_HOLLOW_BIRCH_LOG.getDefaultState()
-                                .with(AXIS, state.get(AXIS)).with(MOSSY, true));
+                                .with(AXIS, state.get(AXIS)).with(MOSSY, true)
+                                .with(WATERLOGGED, state.get(WATERLOGGED)));
                         world.playSound(player, player.getX(), player.getY(), player.getZ(),
                                 SoundEvents.BLOCK_MOSS_CARPET_PLACE, SoundCategory.NEUTRAL, 1.0f, 1.0f);
                         if(!player.isCreative()) {
@@ -185,7 +228,8 @@ public class HollowLog extends Block {
                 if(state.get(MOSSY)) {
                     if(state.isOf(ModBlocks.HOLLOW_BIRCH_LOG)) {
                         world.setBlockState(pos, ModBlocks.HOLLOW_BIRCH_LOG.getDefaultState()
-                                .with(AXIS, state.get(AXIS)).with(MOSSY, false));
+                                .with(AXIS, state.get(AXIS)).with(MOSSY, false)
+                                .with(WATERLOGGED, state.get(WATERLOGGED)));
                         world.playSound(player, player.getX(), player.getY(), player.getZ(),
                                 SoundEvents.BLOCK_MOSS_CARPET_BREAK, SoundCategory.NEUTRAL, 1.0f, 1.0f);
                         world.addBlockBreakParticles(pos, Blocks.MOSS_CARPET.getDefaultState());
@@ -195,7 +239,8 @@ public class HollowLog extends Block {
                     }
                     else if(state.isOf(ModBlocks.STRIPPED_HOLLOW_BIRCH_LOG)) {
                         world.setBlockState(pos, ModBlocks.STRIPPED_HOLLOW_BIRCH_LOG.getDefaultState()
-                                .with(AXIS, state.get(AXIS)).with(MOSSY, false));
+                                .with(AXIS, state.get(AXIS)).with(MOSSY, false)
+                                .with(WATERLOGGED, state.get(WATERLOGGED)));
                         world.playSound(player, player.getX(), player.getY(), player.getZ(),
                                 SoundEvents.BLOCK_MOSS_CARPET_BREAK, SoundCategory.NEUTRAL, 1.0f, 1.0f);
                         world.addBlockBreakParticles(pos, Blocks.MOSS_CARPET.getDefaultState());
@@ -228,11 +273,12 @@ public class HollowLog extends Block {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(HollowLog.AXIS, MOSSY);
+        builder.add(HollowLog.AXIS, MOSSY, WATERLOGGED);
     }
 
     static {
         AXIS = Properties.AXIS;
         MOSSY = BooleanProperty.of("mossy");
+        WATERLOGGED = Properties.WATERLOGGED;
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.pyrix25633.wild_update.block.ModBlocks;
 import net.pyrix25633.wild_update.item.ModItems;
 import net.pyrix25633.wild_update.registries.ModFlammableBlocks;
+import net.pyrix25633.wild_update.registry.RegisterDispenser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,6 +26,7 @@ public class WildUpdateClient implements ClientModInitializer {
 
         ModItems.registerModItems();
         ModBlocks.registerModBlocks();
+        RegisterDispenser.RegisterDispenser();
 
         ModFlammableBlocks.registerFlammables();
 

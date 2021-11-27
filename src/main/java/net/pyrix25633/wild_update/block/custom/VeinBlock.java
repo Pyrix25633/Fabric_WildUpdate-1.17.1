@@ -2,6 +2,7 @@ package net.pyrix25633.wild_update.block.custom;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.GlowLichenBlock;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -12,12 +13,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class VeinBlock extends GlowLichenBlock {
+public class VeinBlock extends GlowLichenBlock implements Waterloggable {
+
     public VeinBlock(Settings settings) {
         super(settings);
     }
@@ -33,7 +34,7 @@ public class VeinBlock extends GlowLichenBlock {
     }
 
     @Override
-    public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack stack) {
+    public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack stack) {
         super.afterBreak(world, player, pos, state, blockEntity, stack);
         if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) == 0) {
             int exp = ThreadLocalRandom.current().nextInt(1, 5);
