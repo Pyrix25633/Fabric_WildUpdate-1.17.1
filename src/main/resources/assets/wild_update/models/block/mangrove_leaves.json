@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "wild_update:block/mangrove_leaves"
+  }
+}

@@ -2,6 +2,9 @@ package net.pyrix25633.wild_update;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.minecraft.client.color.world.BiomeColors;
+import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.render.RenderLayer;
 import net.pyrix25633.wild_update.block.ModBlocks;
 import net.pyrix25633.wild_update.item.ModItems;
@@ -34,6 +37,14 @@ public class WildUpdateClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MANGROVE_DOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SCULK_SHRIEKER, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SCULK_VEIN, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MANGROVE_LEAVES, RenderLayer.getCutout());
+
+        ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {
+            assert world != null;
+            return BiomeColors.getFoliageColor(world, pos);
+        }), ModBlocks.MANGROVE_LEAVES);
+
+        ColorProviderRegistry.ITEM.register(((stack, tintIndex) -> FoliageColors.getDefaultColor()), ModBlocks.MANGROVE_LEAVES);
 
         LOGGER.info("Hello Fabric world!");
     }
