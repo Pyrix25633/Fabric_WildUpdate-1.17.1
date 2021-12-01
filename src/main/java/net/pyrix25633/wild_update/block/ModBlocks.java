@@ -121,6 +121,11 @@ public class ModBlocks {
                     .breakByTool(FabricToolTags.HOES)
                     .breakByTool(FabricToolTags.SHEARS, 0)
                     .sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque()));
+    public static final Block MANGROVE_ROOTS = registerBlock("mangrove_roots",
+            new MangroveRoots(FabricBlockSettings.of(Material.SOLID_ORGANIC)
+                    .strength(0.4f, 0.4f)
+                    .breakByTool(FabricToolTags.HOES)
+                    .sounds(BlockSoundGroup.ROOTS).nonOpaque()));
     //Sculk blocks
     public static final Block SCULK_BLOCK = registerBlock("sculk_block",
             new SculkBlock(FabricBlockSettings.of(Material.SCULK)
