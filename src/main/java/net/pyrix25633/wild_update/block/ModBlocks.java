@@ -4,6 +4,8 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.*;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -158,9 +160,21 @@ public class ModBlocks {
                     .strength(hollowHardness, hollowResistance)
                     .breakByTool(FabricToolTags.AXES)
                     .sounds(BlockSoundGroup.WOOD).nonOpaque()));
+    //Flowers
+    public static final Block DICHONDRA = registerBlock("dichondra",
+            new FlowerBlock(StatusEffects.HEALTH_BOOST,200,
+                    FabricBlockSettings.copy(Blocks.DANDELION)
+                    .breakInstantly()
+                    .sounds(BlockSoundGroup.CROP).nonOpaque().noCollision()));
+    public static final Block POTTED_DICHONDRA = registerOnlyBlock("potted_dichondra",
+            new FlowerPotBlock(ModBlocks.DICHONDRA, FabricBlockSettings.copy(Blocks.POTTED_DANDELION)));
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
+        return Registry.register(Registry.BLOCK, new Identifier(WildUpdate.MOD_ID, name), block);
+    }
+
+    private static Block registerOnlyBlock(String name, Block block) {
         return Registry.register(Registry.BLOCK, new Identifier(WildUpdate.MOD_ID, name), block);
     }
 
