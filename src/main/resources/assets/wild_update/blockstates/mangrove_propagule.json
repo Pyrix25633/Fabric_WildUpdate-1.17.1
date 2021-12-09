@@ -1,0 +1,30 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "hanging": "false"
+      },
+      "apply": {
+        "model": "wild_update:block/mangrove_propagule"
+      }
+    },
+    {
+      "when": {
+        "hanging": "true",
+        "mature": "false"
+      },
+      "apply": {
+        "model": "wild_update:block/mangrove_propagule_hanging"
+      }
+    },
+    {
+      "when": {
+        "hanging": "true",
+        "mature": "true"
+      },
+      "apply": {
+        "model": "wild_update:block/mangrove_propagule_hanging_mature"
+      }
+    }
+  ]
+}

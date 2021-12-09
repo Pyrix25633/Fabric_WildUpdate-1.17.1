@@ -1,0 +1,11 @@
+{
+	"display": {
+		"gui": {
+			"translation": [0, -2, 0]
+		},
+		"fixed": {
+			"translation": [0, -6, 0],
+			"scale": [2, 2, 2]
+		}
+	}
+}

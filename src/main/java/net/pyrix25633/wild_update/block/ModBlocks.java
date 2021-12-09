@@ -128,6 +128,9 @@ public class ModBlocks {
                     .strength(0.4f, 0.4f)
                     .breakByTool(FabricToolTags.HOES)
                     .sounds(BlockSoundGroup.ROOTS).nonOpaque()));
+    public static final Block MANGROVE_PROPAGULE = registerBlock("mangrove_propagule",
+            new MangrovePropagule(FabricBlockSettings.copy(Blocks.OAK_SAPLING)
+                    .nonOpaque().sounds(BlockSoundGroup.GRASS)));
     //Sculk blocks
     public static final Block SCULK_BLOCK = registerBlock("sculk_block",
             new SculkBlock(FabricBlockSettings.of(Material.SCULK)
@@ -162,7 +165,7 @@ public class ModBlocks {
                     .sounds(BlockSoundGroup.WOOD).nonOpaque()));
     //Flowers
     public static final Block DICHONDRA = registerBlock("dichondra",
-            new FlowerBlock(StatusEffects.HEALTH_BOOST,200,
+            new ShortFlowerBlock(StatusEffects.HEALTH_BOOST,200,
                     FabricBlockSettings.copy(Blocks.DANDELION)
                     .breakInstantly()
                     .sounds(BlockSoundGroup.CROP).nonOpaque().noCollision()));
