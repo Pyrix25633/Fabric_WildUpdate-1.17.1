@@ -6,8 +6,6 @@ import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -135,25 +133,31 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
 
     @Override
     public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
-        return world.random.nextFloat() < 0.45D;
+        return howMuchWater(pos, (ServerWorld) world) < 2;
     }
 
     @Override
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
-        this.generate(world, pos, state, random);
+        if(random.nextInt(3) == 1) {
+            this.generate(world, pos, random);
+        }
     }
 
-    public void generate(ServerWorld world, BlockPos pos, BlockState state, Random random) {
+    /*
+     * Function to generate the tree
+     */
+    public void generate(ServerWorld world, BlockPos pos, Random random) {
         int x = pos.getX(), minX = x - 4, maxX = x + 4;
         int y = pos.getY(), minY = pos.getY() - 2, maxY = y + 13;
         int z = pos.getZ(), minZ = z - 4, maxZ = z + 4;
         int i, j, k, relX, relY, relZ;
         int howMuchWater = howMuchWater(pos, world);
         BlockPos tempPos;
-        BlockState toPlace;
+        BlockState toPlace, tempState;
         boolean waterlogged = false;
-        int treeType = random.nextInt(3), randHeight = random.nextInt(3);
+        int treeType = random.nextInt(4), randHeight = random.nextInt(3);
         if(howMuchWater < 2) {
+            //first time: tree log
             for(i = minX; i <= maxX; i++) { //x
                 for(j = minZ; j <= maxZ; j++) { //z
                     for(k = minY; k <= maxY; k++) { //y
@@ -161,21 +165,41 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
                         relY = k - y;
                         relZ = j - z;
                         tempPos = pos.add(relX, relY, relZ);
-                        state = world.getBlockState(tempPos);
-                        if(matchReplaceable(state)) {
-                            if(state.isOf(Blocks.WATER)) {
+                        tempState = world.getBlockState(tempPos);
+                        if(matchReplaceable(tempState)) {
+                            if(tempState.isOf(Blocks.WATER)) {
                                 waterlogged = true;
                             }
-                            else if(state.isOf(ModBlocks.MANGROVE_PROPAGULE)) {
-                                if(state.get(WATERLOGGED)) {
+                            else if(tempState.isOf(ModBlocks.MANGROVE_PROPAGULE)) {
+                                if(tempState.get(WATERLOGGED)) {
                                     waterlogged = true;
                                 }
                             }
                             else {
                                 waterlogged = false;
                             }
-                            toPlace = getBlockToPlace(i, j, k, pos, treeType, randHeight, howMuchWater, waterlogged,
-                                    random);
+                            toPlace = getBlockToPlace(i, j, k, pos, treeType, randHeight, howMuchWater,
+                                    waterlogged, random);
+                            if(toPlace != Blocks.AIR.getDefaultState()) {
+                                world.setBlockState(tempPos, toPlace);
+                            }
+                        }
+                    }
+                }
+            }
+            //second time: decorations such as propagule and vines
+            for(i = minX; i <= maxX; i++) { //x
+                for(j = minZ; j <= maxZ; j++) { //z
+                    for(k = minY; k <= maxY; k++) { //y
+                        relX = i - x;
+                        relY = k - y;
+                        relZ = j - z;
+                        tempPos = pos.add(relX, relY, relZ);
+                        tempState = world.getBlockState(tempPos);
+                        if(matchReplaceable(tempState)) {
+                            waterlogged = tempState.isOf(Blocks.WATER);
+                            toPlace = getDecorationToPlace(i, j, k, pos, tempPos, randHeight, treeType, waterlogged,
+                            world, random);
                             if(toPlace != Blocks.AIR.getDefaultState()) {
                                 world.setBlockState(tempPos, toPlace);
                             }
@@ -186,6 +210,9 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
         }
     }
 
+    /*
+     * Function to know if the block is replaceable
+     */
     public boolean matchReplaceable(BlockState state){
         Block[] blocks = {Blocks.VINE, Blocks.AIR, Blocks.ACACIA_LEAVES, Blocks.BIRCH_LEAVES, Blocks.AZALEA_LEAVES,
                 Blocks.DARK_OAK_LEAVES, Blocks.OAK_LEAVES, Blocks.FLOWERING_AZALEA_LEAVES, Blocks.JUNGLE_LEAVES,
@@ -198,10 +225,12 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
                 return true;
             }
         }
-
         return false;
     }
 
+    /*
+     * Function to get the block to place
+     */
     public BlockState getBlockToPlace(int i, int j, int k, BlockPos pos, int treeType, int randHeight, int howMuchWater,
                                       boolean waterlogged, Random random) {
         int logX = pos.getX();
@@ -211,8 +240,8 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
             if(i == logX && j == logZ && k <= maxLogY) { //log
                 return ModBlocks.MANGROVE_LOG.getDefaultState();
             }
-            else { //leaves
-                if(ifPlaceFoliage(i, j, k, logX, maxLogY, logZ, treeType, random)) {
+            else {
+                if(ifPlaceFoliage(i, j, k, logX, maxLogY, logZ, treeType, random)) { //leaves
                     return ModBlocks.MANGROVE_LEAVES.getDefaultState();
                 }
             }
@@ -249,28 +278,52 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
         return Blocks.AIR.getDefaultState();
     }
 
+    /*
+     * Function to get the decoration to place
+     */
+    public BlockState getDecorationToPlace(int i, int j , int k, BlockPos pos, BlockPos tempPos, int randHeight,
+                                           int treeType, boolean waterlogged, ServerWorld world, Random random) {
+        int logX = pos.getX();
+        int maxLogY = pos.getY() + 6 + randHeight;
+        int logZ = pos.getZ();
+        if(world.getBlockState(tempPos.up()) == ModBlocks.MANGROVE_LEAVES.getDefaultState()) {
+            if(ifPlacePropagule(i, j, k, logX, maxLogY, logZ, treeType, random)) { //propagule
+                if(random.nextInt(4) == 1) {
+                    return ModBlocks.MANGROVE_PROPAGULE.getDefaultState().with(HANGING, true)
+                            .with(MATURE, true).with(WATERLOGGED, waterlogged);
+                }
+                return ModBlocks.MANGROVE_PROPAGULE.getDefaultState().with(HANGING, true)
+                        .with(MATURE, false).with(WATERLOGGED, waterlogged);
+            }
+        }
+        return Blocks.AIR.getDefaultState();
+    }
+
+    /*
+     * Function to know if place foliage
+     */
     public boolean ifPlaceFoliage(int i, int j, int k, int logX, int maxLogY, int logZ, int treeType, Random random) {
         switch(treeType) {
             case 0:
                 if((k >= maxLogY - 2 && k < maxLogY + 3) && (i < logX + 3 && i > logX - 2) &&
                         (j < logZ + 2 && j > logZ - 3)) {
                     if((k < maxLogY || k > maxLogY + 1) || (i > logX + 1 || i < logX) || (j > logZ || j < logZ - 1)) {
-                        if(random.nextInt(6) == 1) {
+                        if(random.nextInt(12) == 1) {
                             break;
                         }
-                        return true;
                     }
+                    return true;
                 }
                 break;
             case 1:
                 if((k >= maxLogY - 1 && k < maxLogY + 2) && (i < logX + 2 && i > logX - 3) &&
                         (j < logZ + 3 && j > logZ - 2)) {
                     if((k < maxLogY + 1 || k > maxLogY) || (i > logX || i < logX - 1) || (j > logZ + 1 || j < logZ)) {
-                        if(random.nextInt(6) == 1) {
+                        if(random.nextInt(12) == 1) {
                             break;
                         }
-                        return true;
                     }
+                    return true;
                 }
                 break;
             case 2:
@@ -278,20 +331,60 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
                         (j < logZ + 2 && j > logZ - 4)) {
                     if((k < maxLogY + 1 || k > maxLogY + 1) || (i > logX + 2 || i < logX) ||
                             (j > logZ || j < logZ - 2)) {
-                        if(random.nextInt(6) == 1) {
+                        if(random.nextInt(12) == 1) {
                             break;
                         }
-                        return true;
                     }
+                    return true;
                 }
                 break;
             case 3:
                 if((k >= maxLogY - 2 && k < maxLogY + 4) && (i < logX + 2 && i > logX - 4) &&
                         (j < logZ + 4 && j > logZ - 2)) {
                     if((k < maxLogY || k > maxLogY + 2) || (i > logX || i < logX - 2) || (j > logZ + 2 || j < logZ)) {
-                        if(random.nextInt(6) == 1) {
+                        if(random.nextInt(12) == 1) {
                             break;
                         }
+                    }
+                    return true;
+                }
+        }
+        return false;
+    }
+
+    /*
+     * Function to know if place propagule
+     */
+    public boolean ifPlacePropagule(int i, int j, int k, int logX, int maxLogY, int logZ, int treeType, Random random) {
+        switch(treeType) {
+            case 0:
+                if((k >= maxLogY - 3 && k < maxLogY + 2) && (i < logX + 3 && i > logX + 2) &&
+                        (j < logZ + 2 && j > logZ - 3)) {
+                    if(random.nextInt(10) == 1) {
+                        return true;
+                    }
+                }
+                break;
+            case 1:
+                if((k >= maxLogY - 2 && k < maxLogY + 1) && (i < logX + 2 && i > logX - 3) &&
+                        (j < logZ + 3 && j > logZ - 2)) {
+                    if(random.nextInt(10) == 1) {
+                        return true;
+                    }
+                }
+                break;
+            case 2:
+                if((k >= maxLogY - 2 && k < maxLogY + 2) && (i < logX + 4 && i > logX - 2) &&
+                        (j < logZ + 2 && j > logZ - 4)) {
+                    if(random.nextInt(10) == 1) {
+                        return true;
+                    }
+                }
+                break;
+            case 3:
+                if((k >= maxLogY - 3 && k < maxLogY + 3) && (i < logX + 2 && i > logX - 4) &&
+                        (j < logZ + 4 && j > logZ - 2)) {
+                    if(random.nextInt(10) == 1) {
                         return true;
                     }
                 }
@@ -299,6 +392,9 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
         return false;
     }
 
+    /*
+     * Function to know how much water there is above it, or if there are some non-replaceable blocks
+     */
     public int howMuchWater(BlockPos pos, ServerWorld world) {
         int i;
         int waterBlocks = 0, nonReplaceable = 0;
