@@ -121,7 +121,9 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
                 grow(world, random, pos, state);
             }
             else if(!state.get(MATURE)) {
-                world.setBlockState(pos, state.with(MATURE, true));
+                if(random.nextInt(3) == 1) {
+                    world.setBlockState(pos, state.with(MATURE, true));
+                }
             }
         }
     }
@@ -248,7 +250,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
         }
         else {
             if(i == logX && j == logZ && k <= maxLogY) {
-                if(k > minLogY) { //log
+                if(k >= minLogY) { //log
                     return ModBlocks.MANGROVE_LOG.getDefaultState();
                 }
                 else { //root block under log
@@ -295,6 +297,9 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
                 return ModBlocks.MANGROVE_PROPAGULE.getDefaultState().with(HANGING, true)
                         .with(MATURE, false).with(WATERLOGGED, waterlogged);
             }
+            else if(random.nextInt(12) == 1) {
+                return getVineState(i, j, k, logX, maxLogY, logZ, treeType, tempPos, world);
+            }
         }
         return Blocks.AIR.getDefaultState();
     }
@@ -305,7 +310,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
     public boolean ifPlaceFoliage(int i, int j, int k, int logX, int maxLogY, int logZ, int treeType, Random random) {
         switch(treeType) {
             case 0:
-                if((k >= maxLogY - 2 && k < maxLogY + 3) && (i < logX + 3 && i > logX - 2) &&
+                if((k >= maxLogY - 3 && k < maxLogY + 2) && (i < logX + 3 && i > logX - 2) &&
                         (j < logZ + 2 && j > logZ - 3)) {
                     if((k < maxLogY || k > maxLogY + 1) || (i > logX + 1 || i < logX) || (j > logZ || j < logZ - 1)) {
                         if(random.nextInt(12) == 1) {
@@ -327,7 +332,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
                 }
                 break;
             case 2:
-                if((k >= maxLogY - 1 && k < maxLogY + 3) && (i < logX + 4 && i > logX - 2) &&
+                if((k >= maxLogY - 2 && k < maxLogY + 2) && (i < logX + 4 && i > logX - 2) &&
                         (j < logZ + 2 && j > logZ - 4)) {
                     if((k < maxLogY + 1 || k > maxLogY + 1) || (i > logX + 2 || i < logX) ||
                             (j > logZ || j < logZ - 2)) {
@@ -339,7 +344,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
                 }
                 break;
             case 3:
-                if((k >= maxLogY - 2 && k < maxLogY + 4) && (i < logX + 2 && i > logX - 4) &&
+                if((k >= maxLogY - 3 && k < maxLogY + 2) && (i < logX + 2 && i > logX - 4) &&
                         (j < logZ + 4 && j > logZ - 2)) {
                     if((k < maxLogY || k > maxLogY + 2) || (i > logX || i < logX - 2) || (j > logZ + 2 || j < logZ)) {
                         if(random.nextInt(12) == 1) {
@@ -358,7 +363,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
     public boolean ifPlacePropagule(int i, int j, int k, int logX, int maxLogY, int logZ, int treeType, Random random) {
         switch(treeType) {
             case 0:
-                if((k >= maxLogY - 3 && k < maxLogY + 2) && (i < logX + 3 && i > logX + 2) &&
+                if((k >= maxLogY - 4 && k < maxLogY + 1) && (i < logX + 3 && i > logX - 2) &&
                         (j < logZ + 2 && j > logZ - 3)) {
                     if(random.nextInt(10) == 1) {
                         return true;
@@ -374,7 +379,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
                 }
                 break;
             case 2:
-                if((k >= maxLogY - 2 && k < maxLogY + 2) && (i < logX + 4 && i > logX - 2) &&
+                if((k >= maxLogY - 3 && k < maxLogY + 1) && (i < logX + 4 && i > logX - 2) &&
                         (j < logZ + 2 && j > logZ - 4)) {
                     if(random.nextInt(10) == 1) {
                         return true;
@@ -382,7 +387,7 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
                 }
                 break;
             case 3:
-                if((k >= maxLogY - 3 && k < maxLogY + 3) && (i < logX + 2 && i > logX - 4) &&
+                if((k >= maxLogY - 4 && k < maxLogY + 2) && (i < logX + 2 && i > logX - 4) &&
                         (j < logZ + 4 && j > logZ - 2)) {
                     if(random.nextInt(10) == 1) {
                         return true;
@@ -390,6 +395,80 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
                 }
         }
         return false;
+    }
+
+    /*
+     * Function to get the vine state to place
+     */
+    public BlockState getVineState(int i, int j, int k, int logX, int maxLogY, int logZ, int treeType,
+                                   BlockPos tempPos, ServerWorld world) {
+        BlockState toReturn = Blocks.AIR.getDefaultState();
+        switch(treeType) {
+            case 0:
+                if((k >= maxLogY - 4 && k < maxLogY + 1) && (i < logX + 4 && i > logX - 3) &&
+                        (j < logZ + 3 && j > logZ - 4)) {
+                    toReturn = Blocks.VINE.getDefaultState()
+                            .with(Properties.EAST,(world.getBlockState(tempPos.east()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.NORTH, (world.getBlockState(tempPos.north()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.WEST, (world.getBlockState(tempPos.west()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.SOUTH, (world.getBlockState(tempPos.south()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.UP, (world.getBlockState(tempPos.up()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES));
+                }
+                break;
+            case 1:
+                if((k >= maxLogY - 2 && k < maxLogY + 1) && (i < logX + 3 && i > logX - 4) &&
+                        (j < logZ + 4 && j > logZ - 3)) {
+                    toReturn = Blocks.VINE.getDefaultState()
+                            .with(Properties.EAST,(world.getBlockState(tempPos.east()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.NORTH, (world.getBlockState(tempPos.north()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.WEST, (world.getBlockState(tempPos.west()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.SOUTH, (world.getBlockState(tempPos.south()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.UP, (world.getBlockState(tempPos.up()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES));
+                }
+                break;
+            case 2:
+                if((k >= maxLogY - 3 && k < maxLogY + 1) && (i < logX + 5 && i > logX - 3) &&
+                        (j < logZ + 3 && j > logZ - 5)) {
+                    toReturn = Blocks.VINE.getDefaultState()
+                            .with(Properties.EAST,(world.getBlockState(tempPos.east()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.NORTH, (world.getBlockState(tempPos.north()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.WEST, (world.getBlockState(tempPos.west()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.SOUTH, (world.getBlockState(tempPos.south()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.UP, (world.getBlockState(tempPos.up()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES));
+                }
+                break;
+            case 3:
+                if((k >= maxLogY - 4 && k < maxLogY + 2) && (i < logX + 3 && i > logX - 5) &&
+                        (j < logZ + 5 && j > logZ - 3)) {
+                    toReturn = Blocks.VINE.getDefaultState()
+                            .with(Properties.EAST,(world.getBlockState(tempPos.east()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.NORTH, (world.getBlockState(tempPos.north()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.WEST, (world.getBlockState(tempPos.west()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.SOUTH, (world.getBlockState(tempPos.south()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES))
+                            .with(Properties.UP, (world.getBlockState(tempPos.up()).getBlock() ==
+                                    ModBlocks.MANGROVE_LEAVES));
+                }
+        }
+        return toReturn;
     }
 
     /*
