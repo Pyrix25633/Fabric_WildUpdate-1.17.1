@@ -116,15 +116,8 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
     @Override
     @SuppressWarnings("deprecation")
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (world.getLightLevel(pos.up()) >= 9) {
-            if(!state.get(HANGING)) {
-                grow(world, random, pos, state);
-            }
-            else if(!state.get(MATURE)) {
-                if(random.nextInt(3) == 1) {
-                    world.setBlockState(pos, state.with(MATURE, true));
-                }
-            }
+        if (canGrow(world, random, pos , state)) {
+            grow(world, random, pos, state);
         }
     }
 
@@ -135,13 +128,20 @@ public class MangrovePropagule extends PlantBlock implements Waterloggable, Fert
 
     @Override
     public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
-        return howMuchWater(pos, (ServerWorld) world) < 2;
+        return world.getLightLevel(pos.up()) >= 9;
     }
 
     @Override
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
         if(random.nextInt(3) == 1) {
-            this.generate(world, pos, random);
+            if(!state.get(HANGING)) {
+                this.generate(world, pos, random);
+            }
+            else if(!state.get(MATURE)) {
+                if(random.nextInt(3) == 1) {
+                    world.setBlockState(pos, state.with(MATURE, true));
+                }
+            }
         }
     }
 
